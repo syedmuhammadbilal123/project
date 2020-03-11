@@ -1,0 +1,6 @@
+*.pyc
+dashboards/*
+.reservations/*
+
+.env
+db.sqlite3
