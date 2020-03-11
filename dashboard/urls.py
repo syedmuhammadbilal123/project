@@ -12,6 +12,7 @@ urlpatterns = [
     path('property/',views.property),
     path('vehicle/',views.vehicle),
     path('register/add_vendor', views.add_vendors),
+    path('events/add_events', views.add_events),
     path('register/login_press', views.login_press),
     path('register/login_press/events',views.add_events),
     path('register/login_press/events/vehicles',views.add_vehicle)

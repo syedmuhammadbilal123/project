@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from res.models import vendor
-from dashboard.Serializers import RegistrationSerializer
+from dashboard.Serializers import RegistrationSerializer,EventsSerializer
 
 
 
