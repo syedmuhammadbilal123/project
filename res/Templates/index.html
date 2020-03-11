@@ -1,0 +1,36 @@
+<div class="container">
+  <form method="POST" action="add_booking">
+  {%csrf_token%}
+
+    <label for="fname">vehciles name</label>
+    <input type="text" id="fname" name="vehicles_name" placeholder="Your name..">
+
+    <label for="lname">vehicles type</label>
+    <input type="text" id="lname" name="vehicles_type" placeholder="Your last name..">
+
+    <label for="country">Country</label>
+    <select id="country" name="country">
+      <option value="australia">Australia</option>
+      <option value="canada">Canada</option>
+      <option value="usa">USA</option>
+    </select>
+
+    <label for="subject">Subject</label>
+    <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+    <input type="submit" value="Submit">
+
+ </form>
+
+<table>
+
+  {%for recdata in data%}
+  <th>vehicles name</th>
+  <tr>{{recdata.vehicles_name}}</tr>
+  <th>vehicles type</th>
+
+  <tr>{{recdata.vehicles_type}}</tr>
+  {%endfor%}
+</table>
+</body>
+</html>

@@ -1,0 +1,139 @@
+{% extends "back.html" %}
+{% block content %}
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Add a Event</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">General Form</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Add A Event</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <form method="POST" action="add_events">
+                      {%csrf_token%}
+
+                   <div class="col">
+                  <div class="form-group">
+                    <label>Event Name</label>
+                    <select class="select2" multiple="multiple" data-placeholder="Event Name"name ="eventname" style="width: 100%;" name="select_Courses">
+                      {%for t in data%}
+                      <option value="{{t.id}}" name="options">{{t.str}}</option>
+                      {%endfor%}
+                    </select>
+
+                  </div>
+                     <div class="form-group">
+                      <label for="name">Event Location</label>
+                      <input type="text" class="form-control" id="mpw" placeholder="Date and Time" name="eventlocation">
+                    </div>
+
+                  <div class="form-group">
+                      <label for="name">Event Type</label>
+                      <input type="text" class="form-control" id="semester name" placeholder="location" name="eventtype" name="name">
+                    </div>
+                  <div class="form-group">
+                      <label for="name">Event Price</label>
+                      <input type="text" class="form-control" id="semester name" placeholder="Price per Ticket" name="eventprice">
+                    </div>
+                  <div class="form-group">
+                      <label for="name">Event Time</label>
+                      <input type="text" class="form-control" id="semester name" placeholder="Price per Ticket" name="eventtime">
+                    </div>
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+
+                 </div>
+
+
+
+                </form>
+            </div>
+        </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+         <!-- Main content -->
+<div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Event Name</th>
+                      <th>Event Location</th>
+                      <th>Event Price</th>
+                      <th>Event time</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for semester in Semesters %}
+
+                    <tr>
+                      <td>{{semester.semester_id}}</td>
+                      <td>{{semester.semester_name}}</td>
+                      <td>{{semester.courses_count}}</td>
+                    </tr>
+                  {%endfor%}
+
+                  </tbody>
+                </table>
+              </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.0.2-pre
+    </div>
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">MYTOURGUIDE</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+<script>
+   $(document).ready(function() {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+  })
+</script>
+{% endblock %}
