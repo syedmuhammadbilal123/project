@@ -1,6 +1,6 @@
 *.pyc
 dashboards/*
-.reservations/*
+m     
 
 .env
 db.sqlite3
