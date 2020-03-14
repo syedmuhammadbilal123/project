@@ -11,7 +11,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class EventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.event_places
-        fields = ('event_name','event_location','event_type','price','time')
+        fields = ('event_name','event_location','event_type','price','time','vendor_id')
 
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:

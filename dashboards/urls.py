@@ -4,9 +4,11 @@ from . import views
 
 urlpatterns = [
     path('backs/',views.backs),
-    path('dashboards/',views.dashboards),
+    path('',views.dashboards,name="admin-dashboard"),
     path('login/',views.login),
-    path('register/',views.register),
+    path('allevents/',views.packages),
+
+    # path('register/',views.register),
     path('train_schedule',views.train_schedule),
     path('airplane_schedule',views.airplane_schedule)
 

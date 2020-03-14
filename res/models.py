@@ -17,6 +17,7 @@ class User(models.Model):
         db_table = "User"
 
 
+
 class resturant(models.Model):
     resturant_id = models.AutoField(primary_key=True)
     resturant_name = models.CharField(max_length=100)
@@ -124,8 +125,7 @@ class event_places(models.Model):
     event_type = models.CharField(max_length=100)
     price = models.CharField(max_length=100)
     time = models.CharField(max_length=100)
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
-
+    vendor_id = models.ForeignKey(vendor,on_delete=models.CASCADE,default=None)
     class Meta:
         db_table = "event_places"
 

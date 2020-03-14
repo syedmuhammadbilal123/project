@@ -4,10 +4,11 @@ from dashboard import views
 
 urlpatterns = [
     path('back/',views.dash),
-    path('login/',views.login),
+    path('login/',views.loginView,name='reservation-login'),
+    path('login/login-Pressed',views.login_press),
     path('register/',views.register),
-    path('dashboard/',views.dashboard),
-    path('events/',views.events),
+    path('',views.dashboard),
+    path('events/',views.events,name='reservation-events'),
     path('makemytrip/',views.makemytrip),
     path('property/',views.property),
     path('vehicle/',views.vehicle),

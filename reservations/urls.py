@@ -20,8 +20,8 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('base/',include('res.urls')),
-    path('index/',include('res.urls')),
-    path('dashvendor/',include('dashboard.urls')),
-    path('dashadmin/',include('dashboards.urls')),
+    path('',include('res.urls'),name="res-home"),
+    path('dashvendor/',include('dashboard.urls'),name="dash_vendor"),
+    path('dashadmin/',include('dashboards.urls'),name="dash_admin"),
 
 ]

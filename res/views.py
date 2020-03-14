@@ -12,6 +12,28 @@ def Home(request):
     n_data = models.hotel_reservations.objects.all()
     return render(request,'base.html',{'data':n_data})
 
+def login(request):
+
+    return render(request,'vendor_login.html')
+
+def login_Pressed(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if len(models.User.objects.filter(user_email=email)) > 0:
+            redirect('res-home')
+        # if len(models.vendor.objects.filter(vendor_email=email)) > 0:
+        #     redirect('dash_vendor')
+        # if len(models.admin.objects.filter(admin_email=email)) > 0:
+        #     redirect('res-home')
+
+    return render(request,'vendor_login.html')
+
+
+def dashboard(request):
+    return render(request,'dashboard.html')
+
 def Index(request):
     b_data = models.vehicles.objects.all()
     return render(request,'index.html',{'data':b_data})

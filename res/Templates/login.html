@@ -73,10 +73,10 @@
       <!-- /.lockscreen-image -->
 
       <!-- lockscreen credentials (contains the form) -->
-      <form class="lockscreen-credentials" method="POST" action="login_press">
+      <form class="lockscreen-credentials" method="POST" action="loginPressed">
         {% csrf_token %}
         <div class="input-group">
-          <input type="name" class="form-control" placeholder="name" name="name">
+          <input type="email" class="form-control" placeholder="email" name="email">
 
         <div class="input-group">
           <input type="password" class="form-control" placeholder="password" name="password">

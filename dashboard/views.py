@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from res.models import vendor
+from django.contrib import messages
 from dashboard.Serializers import RegistrationSerializer,EventsSerializer
 
 
@@ -12,8 +13,8 @@ def dash(request):
     return render(request,'back.html')
 
 
-def login(request):
-    return render(request,'login.html')
+def loginView(request):
+    return render(request,'vendor_login.html')
 
 def register(request):
     return render(request,'register.html')
@@ -47,24 +48,29 @@ def add_vendors(request):
         if serial.is_valid():
             try:
                 serial.save()
-                return render(request,'login.html')
+                return render(request,'vendor_login.html')
             except:
-                return render(request,'login.html')
+                return render(request,'vendor_login.html')
     else:
         return render(request,'reigister.html')
 
 def login_press(request):
     if request.method == "POST":
-        n_name = request.POST.get('name')
+        n_email = request.POST.get('email')
         p_password = request.POST.get('password')
-        v = vendor.objects.filter(vendor_name=n_name).last()
-        if v.vendor_name == n_name:
+        v = vendor.objects.filter(vendor_email=n_email).last()
+        if v == None:
+            messages.error(request, n_email)
+            return redirect('reservation-login')
+        if v.vendor_email == n_email:
             if v.vendor_password == p_password:
                 return render(request,'dashboard.html')
             else:
-                return render(request,'login.html')
+                return render(request,'vendor_login.html')
         else:
-            return render(request,'login.html')
+            return render(request,'vendor_login.html')
+    else:
+        return render(request, 'vendor_login.html')
 
 def add_events(request):
 
@@ -74,16 +80,19 @@ def add_events(request):
         e_type = request.POST.get('eventtype')
         e_price = request.POST.get('eventprice')
         e_time = request.POST.get('eventtime')
-        data = {'event_name':e_name,'event_location':e_location,'event_type':e_type,'price':e_price,'time':e_time}
+        data = {'event_name':e_name,'event_location':e_location,'event_type':e_type,'price':e_price,'time':e_time,'vendor_id':1}
         serial = EventsSerializer(data=data)
         if serial.is_valid():
             try:
                 serial.save()
-                return render(request,'submitted.html')
+                messages.success(request, 'Saved')
+                return redirect('reservation-events')
             except:
-                return render(request,'login.html')
+                messages.error(request, 'Something Wrong')
+                return redirect('reservation-events')
         else:
-            return render(request,'sorry.html')
+            messages.error(request, 'Invalid Serializer')
+            return redirect('reservation-events')
     else:
         return render(request,'sorry.html')
 def add_vehicle(request):
@@ -99,6 +108,6 @@ def add_vehicle(request):
                 serial.save()
                 return render(request,'submitted.html')
             except:
-                return render(request,'login.html')
+                return render(request,'vendor_login.html')
     else:
         return render(request,'sorry.html')
