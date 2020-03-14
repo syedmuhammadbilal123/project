@@ -125,7 +125,7 @@ class event_places(models.Model):
     price = models.CharField(max_length=100)
     time = models.CharField(max_length=100)
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
-    trip_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
+
     class Meta:
         db_table = "event_places"
 

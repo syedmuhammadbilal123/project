@@ -40,13 +40,10 @@
                    <div class="col">
                   <div class="form-group">
                     <label>Event Name</label>
-                    <select class="select2" multiple="multiple" data-placeholder="Event Name"name ="eventname" style="width: 100%;" name="select_Courses">
-                      {%for t in data%}
-                      <option value="{{t.id}}" name="options">{{t.str}}</option>
-                      {%endfor%}
-                    </select>
+                    <label for="name">Event Location</label>
+                      <input type="text" class="form-control" id="mpw" placeholder="Date and Time" name="eventlocation">
+                    </div>
 
-                  </div>
                      <div class="form-group">
                       <label for="name">Event Location</label>
                       <input type="text" class="form-control" id="mpw" placeholder="Date and Time" name="eventlocation">

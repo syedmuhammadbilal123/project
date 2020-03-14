@@ -82,6 +82,8 @@ def add_events(request):
                 return render(request,'submitted.html')
             except:
                 return render(request,'login.html')
+        else:
+            return render(request,'sorry.html')
     else:
         return render(request,'sorry.html')
 def add_vehicle(request):
