@@ -6,7 +6,7 @@ urlpatterns = [
     path('backs/',views.backs),
     path('',views.dashboards,name="admin-dashboard"),
     path('login/',views.login),
-    path('allevents/',views.packages),
+    path('vendor_events/',views.all_Events),
 
     # path('register/',views.register),
     path('train_schedule',views.train_schedule),

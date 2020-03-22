@@ -41,3 +41,7 @@ def login_Pressed(request):
 def packages(request):
     events = models.event_places.objects.all()
     return render(request,"All_Events.html",{"data":events})
+
+def all_Events(request):
+    events = models.event_places.objects.all()
+    return render(request,"Vendor_Events.html",{"data":events})
