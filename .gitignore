@@ -1,6 +1,4 @@
-*.pyc
-dashboards/*
-m     
+*.pyc 
 
 .env
 db.sqlite3
