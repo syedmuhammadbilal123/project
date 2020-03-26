@@ -11,9 +11,10 @@ urlpatterns = [
     path('events/',views.events,name='reservation-events'),
     path('makemytrip/',views.makemytrip),
     path('property/',views.property),
-    path('vehicle/',views.vehicle),
+    path('vehicle/',views.vehicle,name='reservation-vehicle'),
     path('register/add_vendor', views.add_vendors),
     path('events/add_events', views.add_events),
+    path('vehicle/add_vehicle',views.add_vehicle),
     path('register/login_press', views.login_press),
     path('register/login_press/events',views.add_events),
     path('register/login_press/events/vehicles',views.add_vehicle)

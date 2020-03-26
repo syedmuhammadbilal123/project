@@ -3,7 +3,7 @@
 
 
   <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -30,97 +30,75 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add your Vehicle</h3>
+                <h3 class="card-title">Add A Vehicle</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" method="POST" action="add_vehicle">
-                {% csrf_token %}
+                <form method="POST" action="add_vehicle">
+                      {%csrf_token%}
 
-                 <div class="col">
-                <div class="form-group">
-                  <label>Vehicle Name</label>
-                  <input type="text" class="form-control" id="mpw" placeholder="Enter your vehicle company name" name="vehiclename">
-                    {%for t in data%}
-                    <option value="{{t.id}}" name="options">{{t.str}}</option>
-                    {%endfor%}
-                  </select>
+                   <div class="col">
+                  <div class="form-group">
+                    <label>Vehicle INFO</label>
+                    <label for="name">Vehicle name</label>
+                      <input type="text" class="form-control" id="" placeholder="Vehicle Name" name="vehiclename">
+                    </div>
 
-                </div>
-                   <div class="form-group">
-                    <label for="name">Vehicle Type</label>
-                    <input type="text" class="form-control" id="mpw" placeholder="Enter your vehicle type(car,bus)" name="vehicletype">
+                     <div class="form-group">
+                      <label for="location">Vehicle type</label>
+                      <input type="text" class="form-control" id="" placeholder="Vehicle Type" name="vehicletype">
+                    </div>
+
+                  <div class="form-group">
+                      <label for="type">Model Id</label>
+                      <input type="text" class="form-control" id="" placeholder="model id" name="modelid" name="eventtype">
+                    </div>
+                  <div class="form-group">
+                      <label for="price">Model Name</label>
+                      <input type="text" class="form-control" id="" placeholder="model name" name="modelname">
+                    </div>
+
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
 
-                <div class="form-group">
-                    <label for="name">Model Number</label>
-                    <input type="text" class="form-control" id="semester name" placeholder="Enter your vehicle model number" name="modelid">
-                  </div>
-                <div class="form-group">
-                    <label for="name">Availability</label>
-                    <input type="text" class="form-control" id="semester name" placeholder="confirm vehicle Availability(timeslots and days)" name="modelname">
-                  </div>
-                  <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-
-               </div>
+                 </div>
 
 
 
-              </form>
+                </form>
             </div>
         </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-
-    <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Users</h3>
-
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search"  class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
+         <!-- Main content -->
+<div class="card-body table-responsive p-0">
                 <table class="table table-hover">
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Start Time</th>
-                      <th>End Time</th>
+                      <th>Event Name</th>
+                      <th>Event Location</th>
+                      <th>Event Price</th>
+                      <th>Event time</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                  {% for time in data %}
+                  {% for semester in Semesters %}
+
                     <tr>
-                      <td>{{time.id}}</td>
-                      <td>{{time.start_time}}</td>
-                      <td>{{time.end_time}}</td>
+                      <td>{{semester.semester_id}}</td>
+                      <td>{{semester.semester_name}}</td>
+                      <td>{{semester.courses_count}}</td>
                     </tr>
                   {%endfor%}
 
                   </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-        </div>
-         <!-- Main content -->
-
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -136,26 +114,20 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+  <!-- /.control-sidebar -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 
 <script>
-  $(document).ready(function(){
-    $('.timepicker').timepicker({
-timeFormat: 'h:mm p',
-interval: 15,
-minTime: '8',
-maxTime: '9:00pm',
-defaultTime: '8',
-startTime: '08:00',
-dynamic: false,
-dropdown: true,
-scrollbar: true
-});
-})
+   $(document).ready(function() {
+    //Initialize Select2 Elements
+    $('.select2').select2()
 
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+  })
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-  <!-- /.control-sidebar -->
 {% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from res.models import vendor
 from django.contrib import messages
-from dashboard.Serializers import RegistrationSerializer,EventsSerializer
+from dashboard.Serializers import RegistrationSerializer,EventsSerializer,VehicleSerializer
 
 
 
@@ -101,13 +101,18 @@ def add_vehicle(request):
         v_type = request.POST.get('vehicletype')
         m_id = request.POST.get('modelid')
         m_name = request.POST.get('modelname')
-        vehicle_data = {'vehicles_id':v_name,'vehicles_name':v_name,'vehicle_type':v_type,'model_id':modelid,'model_name':modelname}
-        serial = VehicleSerializer(vehicle_data=vehicle_data)
+        data = {'vehicles_id':v_name,'vehicles_name':v_name,'vehicle_type':v_type,'model_id':m_id,'model_name':m_name,'user_id':2}
+        serial = VehicleSerializer(data=data)
         if serial.is_valid():
             try:
                 serial.save()
-                return render(request,'submitted.html')
+                messages.success(request, 'Saved')
+                return redirect('reservation-vehicle')
             except:
-                return render(request,'vendor_login.html')
+                messages.error(request, 'Something Wrong')
+                return redirect('reservation-vehicle')
+        else:
+            messages.error(request, 'Invalid Serializer')
+            return redirect('reservation-vehicle')
     else:
         return render(request,'sorry.html')

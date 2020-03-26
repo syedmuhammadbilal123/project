@@ -16,4 +16,4 @@ class EventsSerializer(serializers.ModelSerializer):
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.vehicles
-        fields = ('vehicles_name','vehicles_type','model_id','model_name')
+        fields = ('vehicles_name','vehicles_type','model_id','model_name','user_id')
