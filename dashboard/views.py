@@ -95,14 +95,18 @@ def add_events(request):
             return redirect('reservation-events')
     else:
         return render(request,'sorry.html')
+
 def add_vehicle(request):
     if request.method == "POST":
-        v_name =  request.POST.get('vehiclename')
+        v_name = request.POST.get('vehiclename')
         v_type = request.POST.get('vehicletype')
         m_id = request.POST.get('modelid')
         m_name = request.POST.get('modelname')
-        data = {'vehicles_id':v_name,'vehicles_name':v_name,'vehicle_type':v_type,'model_id':m_id,'model_name':m_name,'user_id':2}
+        data = {'vehicles_name':v_name,'vehicles_type':v_type,'model_id':m_id,'model_name':m_name,'user_id':'2'}
+        # messages.success(request, data)
         serial = VehicleSerializer(data=data)
+
+
         if serial.is_valid():
             try:
                 serial.save()
@@ -112,6 +116,7 @@ def add_vehicle(request):
                 messages.error(request, 'Something Wrong')
                 return redirect('reservation-vehicle')
         else:
+            messages.success(request, serial.data)
             messages.error(request, 'Invalid Serializer')
             return redirect('reservation-vehicle')
     else:

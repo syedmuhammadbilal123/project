@@ -13,6 +13,7 @@ class EventsSerializer(serializers.ModelSerializer):
         model = models.event_places
         fields = ('event_name','event_location','event_type','price','time','vendor_id')
 
+
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.vehicles
