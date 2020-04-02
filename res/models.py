@@ -40,26 +40,38 @@ class hotel(models.Model):
     hotel_name = models.CharField(max_length=100)
     hotel_type = models.CharField(max_length=100)
     hotel_location = models.IntegerField()
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
     class Meta:
         db_table = "hotel"
 
+class hotel_room(models.Model):
+    hotel_room_id = models.AutoField(primary_key=True)
+    hotel_id = models.ForeignKey(hotel,on_delete=models.CASCADE)
+   # room_id = models.ForeignKey(room,on_delete=models.CASCADE)
+    class Meta:
+        db_table = "hotel_room"
+
+class room_type(models.Model):
+    room_type_id = models.AutoField(primary_key=True)
+    room_type_name = models.CharField(max_length=100,default=None)
+
+    class Meta:
+        db_table = "room_type"
 
 
-class room_types(models.Model):
+class room(models.Model):
     room_id = models.AutoField(primary_key=True)
     room_price = models.CharField(max_length=100)
     no_of_persons = models.IntegerField()
+    no_of_rooms = models.IntegerField(default=0)
     discount_rates = models.IntegerField(default=0)
     room_category = models.CharField(max_length=100)
-    room_type_id = models.IntegerField()
     normal = models.CharField(max_length=100)
     pent_house = models.CharField(max_length=100)
-    deluxe = models.CharField(max_length=100)
-    suite = models.CharField(max_length=100)
+    room_type = models.ForeignKey(room_type,on_delete=models.CASCADE,default=None)
     hotel_id = models.ForeignKey(hotel,on_delete=models.CASCADE)
     class Meta:
-        db_table = "room_types"
+        db_table = "room"
 
 
 
@@ -69,9 +81,9 @@ class amenity(models.Model):
     roof_available = models.BooleanField(default=False)
     hotWater_available = models.BooleanField(default=False)
     private_parking_available = models.BooleanField(default=False)
-    rooms_id = models.ForeignKey(room_types,on_delete=models.CASCADE)
+    rooms = models.ForeignKey(room,on_delete=models.CASCADE)
     class Meta:
-        db_table = "rooms"
+        db_table = "amenity"
 
 
 
@@ -129,7 +141,11 @@ class event_places(models.Model):
     class Meta:
         db_table = "event_places"
 
-
+class vehicles_type(models.Model):
+    vehicles_type_id = models.AutoField(primary_key=True)
+    vehicle_type_name = models.CharField(max_length=100)
+    class Meta:
+        db_table = "vehicles_type"
 
 class vehicles(models.Model):
     vehicles_id = models.AutoField(primary_key=True)
@@ -137,7 +153,9 @@ class vehicles(models.Model):
     vehicles_type = models.CharField(max_length=100)
     model_id = models.CharField(max_length=100)
     model_name = models.CharField(max_length=100)
+
     user_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
+
 
     class Meta:
         db_table = "vehicles"
@@ -220,13 +238,13 @@ class airplanes(models.Model):
 
 class hotel_reservations(models.Model):
     hotelres_id = models.AutoField(primary_key=True)
-    hotel_name = models.ForeignKey(hotel,on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE,default='')
     check_in = models.CharField(max_length=100)
     check_out = models.CharField(max_length=100)
     day_arrival = models.CharField(max_length=100)
     time_duration = models.CharField(max_length=100)
     total_amount = models.FloatField(default=0.0)
+    hotel_name = models.ForeignKey(hotel,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Roles,on_delete=models.CASCADE,default='')
     class Meta:
         db_table = "hotel_reservations"
 

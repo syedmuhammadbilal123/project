@@ -18,3 +18,8 @@ class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.vehicles
         fields = ('vehicles_name','vehicles_type','model_id','model_name','user_id')
+
+class HotelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.hotel
+        fields = ('hotel_name','hotel_type','hotel_location','user_id')

@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from res.models import vendor
+from . import models
 from django.contrib import messages
-from dashboard.Serializers import RegistrationSerializer,EventsSerializer,VehicleSerializer
+from dashboard.Serializers import RegistrationSerializer,EventsSerializer,VehicleSerializer,HotelSerializer
 
 
 
@@ -26,6 +26,10 @@ def dashboard(request):
 def events(request):
 
     return render(request,'events.html')
+
+def hotel(request):
+
+    return render(request,'hotel.html')
 
 def makemytrip(request):
     return render(request,'makemytrip.html')
@@ -103,7 +107,7 @@ def add_vehicle(request):
         m_id = request.POST.get('modelid')
         m_name = request.POST.get('modelname')
         data = {'vehicles_name':v_name,'vehicles_type':v_type,'model_id':m_id,'model_name':m_name,'user_id':'2'}
-        # messages.success(request, data)
+        #messages.success(request, data)
         serial = VehicleSerializer(data=data)
 
 
@@ -119,5 +123,31 @@ def add_vehicle(request):
             messages.success(request, serial.data)
             messages.error(request, 'Invalid Serializer')
             return redirect('reservation-vehicle')
+    else:
+        return render(request,'sorry.html')
+
+def add_hotel(request):
+    if request.method == "POST":
+        h_name = request.POST.get('hotelname')
+        h_type = request.POST.get('hoteltype')
+        h_location = request.POST.get('hotellocation')
+
+        data = {'hotel_name':h_name,'hotel_type':h_type,'hotel_location':h_location,'user_id':'2'}
+        #messages.success(request, data)
+        serial = HotelSerializer(data=data)
+
+
+        if serial.is_valid():
+            try:
+                serial.save()
+                messages.success(request, 'Saved')
+                return redirect('reservation-hotel')
+            except:
+                messages.error(request, 'Something Wrong')
+                return redirect('reservation-hotel')
+        else:
+            messages.success(request, serial.data)
+            messages.error(request, 'Invalid Serializer')
+            return redirect('reservation-hotel')
     else:
         return render(request,'sorry.html')

@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
-
+from res.models import hotel_reservations
 from django.http import HttpResponseRedirect, HttpResponse
 from rest_framework.response import Response
+from django.contrib import messages
+from res.Serializers import ReservationSerializer
 
 from . import Serializers
 from . import models
@@ -9,8 +11,8 @@ from . import models
 # Create your views here.
 def Home(request):
     """docstring for Home"""
-    n_data = models.hotel_reservations.objects.all()
-    return render(request,'base.html',{'data':n_data})
+    data = models.room_type.objects.all()
+    return render(request,'base.html',{'data':data})
 
 def login(request):
 
@@ -41,18 +43,31 @@ def Index(request):
 
 def add_reservation(request):
     if request.method == "POST":
-        h_name = request.POST.get('hotel_name')
-        res_id = request.POST.get('hotelres_id')
-        data = {'hotel_name':h_name,'hotelres_id':res_id,'user_id':'1'}
-        serial = Serializers.ReservationSerializer(data=data)
+        h_name = request.POST.get('hotel-name')
+        c_in = request.POST.get('check-in')
+        c_out = request.POST.get('check-out')
+        d_arrival = request.POST.get('day-arrival')
+        t_duration = request.POST.get('time-duration')
+        t_amount = request.POST.get('total-amount')
+
+
+
+
+        data = {'hotel_name':h_name,'check_in':c_in,'check_out':c_out,'day_arrival':d_arrival,'time_duration':t_duration,'total_amount':t_amount,'user_id':'2'}
+        serial = ReservationSerializer(data=data)
         if serial.is_valid():
             try:
                 serial.save()
-                return render(request,'base.html')
+                messages.success(request, 'Saved')
+                return redirect('reservation-reservations')
             except:
-                return render(request,'base.html')
+                messages.error(request, 'Something wrong')
+                return redirect('reservation-reservations')
+        else:
+            messages.error(request, 'Invalid Serializer')
+            return redirect('reservation-reservations')
     else:
-        return render(request,'base.html')
+        return render(request,'sorry.html')
 
 def add_booking(request):
     if request.method == "POST":

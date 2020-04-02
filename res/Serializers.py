@@ -5,7 +5,7 @@ from . import models
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.hotel_reservations
-        fields = ('hotelres_id','hotel_name','user_id')
+        fields = ('hotelres_id','hotel_name','check_in','check_out','day_arrival','time_duration','total_amount','user_id')
 
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:

@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add a Vehicle</h1>
+            <h1>Add a Hotel</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -30,39 +30,30 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add A Vehicle</h3>
+                <h3 class="card-title">Add A Hotel here</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-                <form method="POST" action="add_vehicle">
+                <form method="POST" action="add_hotel">
                       {%csrf_token%}
 
                    <div class="col">
                   <div class="form-group">
-                    <label>Vehicle INFO</label>
-                    <label for="name">Vehicle name</label>
-                      <input type="text" class="form-control" id="" placeholder="Vehicle Name" name="vehiclename">
+
+                    <label for="name">Hotel name</label>
+                      <input type="text" class="form-control" id="" placeholder="Hotel name" name="hotelname">
                     </div>
 
                      <div class="form-group">
-                      <label for="location">Vehicle type</label>
-                      <input type="text" class="form-control" id="" placeholder="Vehicle Type" name="vehicletype">
+                      <label for="location">Hotel type</label>
+                      <input type="text" class="form-control" id="" placeholder="Hotel Type" name="hoteltype">
                     </div>
-                    <select  id="cars" name="select vehicletype">
-                      <option value="">options</option>
-                      <option value="">rikshaw</option>
-                      <option value="">bus</option>
-                      <option value="">rentacar</option>
-                    </select>
 
                   <div class="form-group">
-                      <label for="type">Model Id</label>
-                      <input type="text" class="form-control" id="" placeholder="model id" name="modelid" >
+                      <label for="type">Hotel location</label>
+                      <input type="text" class="form-control" id="" placeholder="Hotel location" name="hotellocation">
                     </div>
-                  <div class="form-group">
-                      <label for="price">Model Name</label>
-                      <input type="text" class="form-control" id="" placeholder="model name" name="modelname">
-                    </div>
+
 
                     <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>

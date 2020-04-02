@@ -47,5 +47,5 @@ def all_Events(request):
     return render(request,"Vendor_Events.html",{"data":events})
 
 def all_Vehicles(request):
-    vehicles=model.vehicles.objects.all()
+    vehicles=models.vehicles.objects.all()
     return render(request,"All_Vehicles.html",{"data":vehicles})

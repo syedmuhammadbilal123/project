@@ -4,11 +4,11 @@ from django.urls import path,include
 from . import views
 
 urlpatterns = [
-    path('',views.Home),
-    path('login',views.login),
+    path('reservation/',views.Home,name='reservation-reservations'),
+    path('login/',views.login),
     path('loginPressed',views.login_Pressed),
     # path('',views.Index),
-    path('add_reservation',views.add_reservation),
+    path('reservation/add_reservation',views.add_reservation),
     path('dashvendor/',include('dashboard.urls'),name="dash_vendor"),
     path('add_booking',views.add_booking)
 ]
