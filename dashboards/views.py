@@ -46,6 +46,10 @@ def all_Events(request):
     events = models.event_places.objects.all()
     return render(request,"Vendor_Events.html",{"data":events})
 
-def all_Vehicles(request):
-    vehicles=models.vehicles.objects.all()
-    return render(request,"All_Vehicles.html",{"data":vehicles})
+def all_vehicles(request):
+    vehicles = models.vehicles.objects.all()
+    return render(request,"Vendor_Vehicles.html",{"data":vehicles})
+def all_reservations(request):
+    hotel_res = models.hotel_reservations.objects.all()
+    return render(request,"Reserved_users.html",{"data":hotel_res})
+

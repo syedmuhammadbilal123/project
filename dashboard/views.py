@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from . import models
+from res.models import vehicles_type,vehicles
+from res.models import resturant,res_table
+
 from django.contrib import messages
-from dashboard.Serializers import RegistrationSerializer,EventsSerializer,VehicleSerializer,HotelSerializer
+from dashboard.Serializers import RegistrationSerializer,EventsSerializer,VehicleSerializer,HotelSerializer,ResturantSerializer
 
 
 
@@ -37,8 +39,17 @@ def makemytrip(request):
 def property(request):
     return render(request,'property.html')
 
+def myresturant(request):
+    resturant_t = res_table.objects.all()
+    all_resturant = resturant.objects.all()
+    return render(request,"resturant.html",{'resturant':resturant_t,'all_resturant':all_resturant})
+
 def vehicle(request):
-    return render(request,'vehicle.html')
+
+    vehicles_t = vehicles_type.objects.all()
+    all_vehicles = vehicles.objects.all()
+
+    return render(request,"vehicle.html",{'vehicles':vehicles_t,'all_vehicles':all_vehicles})
 
 def add_vendors(request):
 
@@ -149,5 +160,32 @@ def add_hotel(request):
             messages.success(request, serial.data)
             messages.error(request, 'Invalid Serializer')
             return redirect('reservation-hotel')
+    else:
+        return render(request,'sorry.html')
+
+def add_my_resturant(request):
+    if request.method == "POST":
+        r_name = request.POST.get('resturantname')
+        r_loc = request.POST.get('resturantlocation')
+        r_table = request.POST.get('restable')
+        r_type = request.POST.get('resturanttype')
+
+        data = {'resturant_name':r_name,'resturant_location':r_loc,'res_table':r_table,'resturant_type':r_type,'user_id':'2'}
+        #messages.success(request, data)
+        serial = ResturantSerializer(data=data)
+
+
+        if serial.is_valid():
+            try:
+                serial.save()
+                messages.success(request, 'Saved')
+                return redirect('reservation-myresturant')
+            except:
+                messages.error(request, 'Something Wrong')
+                return redirect('reservation-myresturant')
+        else:
+            messages.success(request, serial.data)
+            messages.error(request, 'Invalid Serializer')
+            return redirect('reservation-myresturant')
     else:
         return render(request,'sorry.html')

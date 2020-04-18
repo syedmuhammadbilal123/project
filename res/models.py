@@ -22,18 +22,19 @@ class resturant(models.Model):
     resturant_id = models.AutoField(primary_key=True)
     resturant_name = models.CharField(max_length=100)
     resturant_location = models.CharField(max_length=100)
+    res_table = models.ForeignKey("res_table",on_delete=models.CASCADE,default=None)
     resturant_type= models.CharField(max_length=100)
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
 
     class Meta:
         db_table = "resturant"
 
-class table(models.Model):
-    table_id = models.AutoField(primary_key=True)
-    no_of_seats = models.IntegerField()
-    resturant_id = models.ForeignKey(resturant,on_delete=models.CASCADE)
+class res_table(models.Model):
+    res_table_id = models.AutoField(primary_key=True)
+    no_of_seats = models.CharField(max_length=100)
+
     class Meta:
-        db_table = "table"
+        db_table = "res_table"
 
 class hotel(models.Model):
     hotel_id = models.AutoField(primary_key=True)
@@ -41,6 +42,11 @@ class hotel(models.Model):
     hotel_type = models.CharField(max_length=100)
     hotel_location = models.IntegerField()
     user_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
+
+    @property
+    def displayname(self):
+        return f'{self.hotel_name}'
+
     class Meta:
         db_table = "hotel"
 
@@ -54,6 +60,10 @@ class hotel_room(models.Model):
 class room_type(models.Model):
     room_type_id = models.AutoField(primary_key=True)
     room_type_name = models.CharField(max_length=100,default=None)
+
+    @property
+    def displayname(self):
+        return f'{self.room_type_name}'
 
     class Meta:
         db_table = "room_type"
@@ -150,7 +160,7 @@ class vehicles_type(models.Model):
 class vehicles(models.Model):
     vehicles_id = models.AutoField(primary_key=True)
     vehicles_name = models.CharField(max_length=100)
-    vehicles_type = models.CharField(max_length=100)
+    vehicles_type = models.ForeignKey(vehicles_type,on_delete=models.CASCADE,default=None)
     model_id = models.CharField(max_length=100)
     model_name = models.CharField(max_length=100)
 
@@ -243,7 +253,7 @@ class hotel_reservations(models.Model):
     day_arrival = models.CharField(max_length=100)
     time_duration = models.CharField(max_length=100)
     total_amount = models.FloatField(default=0.0)
-    hotel_name = models.ForeignKey(hotel,on_delete=models.CASCADE)
+    room_id = models.ForeignKey(room,on_delete=models.CASCADE,default='')
     user_id = models.ForeignKey(Roles,on_delete=models.CASCADE,default='')
     class Meta:
         db_table = "hotel_reservations"

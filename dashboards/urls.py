@@ -7,8 +7,8 @@ urlpatterns = [
     path('',views.dashboards,name="admin-dashboard"),
     path('login/',views.login),
     path('vendor_events/',views.all_Events),
-    path('vendor_vehicles/',views.all_Vehicles),
-
+    path('vendor_vehicles/',views.all_vehicles),
+    path('user_reservations/',views.all_reservations),
     # path('register/',views.register),
     path('train_schedule',views.train_schedule),
     path('airplane_schedule',views.airplane_schedule)

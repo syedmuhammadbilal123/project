@@ -23,3 +23,9 @@ class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.hotel
         fields = ('hotel_name','hotel_type','hotel_location','user_id')
+
+class ResturantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.resturant
+        fields = ('resturant_name','resturant_location','res_table','resturant_type','user_id')
+

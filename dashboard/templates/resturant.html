@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Add a Vehicle</h1>
+            <h1>Add a Resturant</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -30,24 +30,26 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add A Vehicle</h3>
+                <h3 class="card-title">Add A Resturant</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-                <form method="POST" action="add_vehicle">
+                <form method="POST" action="add_my_resturant">
                       {%csrf_token%}
 
                    <div class="col">
                   <div class="form-group">
 
-                    <label for="name">Vehicle name</label>
-                      <input type="text" class="form-control" id="" placeholder="Vehicle Name" name="vehiclename">
+                    <label for="name">Resturant name</label>
+                      <input type="text" class="form-control" id="" placeholder="Resturant Name" name="resturantname">
                     </div>
+                    <label for="name">Resturant capacity</label>
+                    <select name="restype" >
+                        {%for r in resturant %}
+                        <option value="{{r.res_table_id}}">{{r.no_of_seats}}</option>
 
-                    <select name="vehicletype" >
-                        {%for v in vehicles %}
-                        <option value="{{v.vehicles_type_id}}">{{v.vehicle_type_name}}</option>
-                      {%endfor%}
+
+                        {%endfor%}
 
                     </select>
 
@@ -61,12 +63,16 @@
 
 
                   <div class="form-group">
-                      <label for="type">Model Id</label>
-                      <input type="text" class="form-control" id="" placeholder="model id" name="modelid" >
+                      <label for="type">Resturant Location</label>
+                      <input type="text" class="form-control" id="" placeholder="Resturant Location" name="resturantlocation" >
                     </div>
                   <div class="form-group">
-                      <label for="price">Model Name</label>
-                      <input type="text" class="form-control" id="" placeholder="model name" name="modelname">
+                      <label for="type">Resturant floor</label>
+                      <input type="text" class="form-control" id="" placeholder="Resturant Tables Capacity" name="restable" >
+                    </div>
+                  <div class="form-group">
+                      <label for="price">Resturant type</label>
+                      <input type="text" class="form-control" id="" placeholder="what cuisine you offer" name="resturanttype">
                     </div>
 
                     <div class="card-footer">

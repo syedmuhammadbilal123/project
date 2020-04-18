@@ -6,22 +6,27 @@
                   <thead>
                     <tr>
 
-                      <th>Vehicle Name</th>
-                      <th>Vehicle Type</th>
-                        <th>Model Id</th>
-                      <th>Model Name</th>
+                      <th>Check In</th>
+                      <th>Check Out</th>
+                      <th>Day Arrival</th>
+                      <th>Time duration</th>
+                      <th>Total Amount</th>
+                      <th>Room Id</th>
 
 
                     </tr>
                   </thead>
                   <tbody>
-                  {% for vehicles in data %}
+                  {% for hotel_ress in data %}
 
                     <tr>
-                      <td>{{vehicles.vehicles_name}}</td>
-                      <td>{{vehicles.vehicles_type}}</td>
-                        <td>{{vehicles.vehicles_id}}</td>
-                        <td>{{vehicles.vehicles_name}}</td>
+                      <td>{{hotel_ress.check_in}}</td>
+                      <td>{{hotel_ress.check_out}}</td>
+                        <td>{{hotel_ress.day_arrival}}</td>
+                        <td>{{hotel_ress.time_duration}}</td>
+                        <td>{{hotel_ress.total_amount}}</td>
+                        <td>{{hotel_ress.room_id.room_id}}</td>
+                        <td>{{hotel_ress.user_id.role.role_id}}</td>
 
 
                     </tr>
@@ -42,16 +47,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 
 <script>
-   $(document).ready(function() {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-
-  })
-</script>
-
 {% endblock %}

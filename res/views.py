@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from res.models import hotel_reservations
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from rest_framework.response import Response
 from django.contrib import messages
 from res.Serializers import ReservationSerializer
@@ -11,8 +11,22 @@ from . import models
 # Create your views here.
 def Home(request):
     """docstring for Home"""
-    data = models.room_type.objects.all()
-    return render(request,'base.html',{'data':data})
+    rooms =  models.room.objects.all()
+    # room_types = models.room_type.objects.all()
+
+    # if "selectedHotel" in request.GET:
+    #     selectedHotelID = request.GET.get('selectedHotel')
+    #     selectedHotelRooms = models.room.objects.filter(hotel_id = selectedHotelID).values('room_id','room_type')
+
+    #     myDict = {}
+
+    #     for item in selectedHotelRooms:
+    #         roomType = models.room_type.objects.filter(room_type_id = item['room_type']).values('room_type_name')
+    #         myDict[item['room_id']] = roomType[0]['room_type_name']
+    #     return JsonResponse({'selectedHotelRooms': myDict})
+
+
+    return render(request,'reservation.html',{'rooms':rooms})
 
 def login(request):
 
@@ -42,18 +56,19 @@ def Index(request):
 
 
 def add_reservation(request):
+
     if request.method == "POST":
-        h_name = request.POST.get('hotel-name')
-        c_in = request.POST.get('check-in')
-        c_out = request.POST.get('check-out')
-        d_arrival = request.POST.get('day-arrival')
-        t_duration = request.POST.get('time-duration')
-        t_amount = request.POST.get('total-amount')
 
+        # h_name = request.POST.get('hotel-name')
+        c_in = str(request.POST.get('checkin'))
+        c_out = str(request.POST.get('checkout'))
+        d_arrival = request.POST.get('day')
+        t_duration = request.POST.get('time')
+        t_amount = float(request.POST.get('amount'))
+        room_id = request.POST.get('hotel_and_room')
 
+        data = {'check_in':c_in,'check_out':c_out,'day_arrival':d_arrival,'time_duration':t_duration,'total_amount':t_amount,'room_id': room_id,'user_id':'1'}
 
-
-        data = {'hotel_name':h_name,'check_in':c_in,'check_out':c_out,'day_arrival':d_arrival,'time_duration':t_duration,'total_amount':t_amount,'user_id':'2'}
         serial = ReservationSerializer(data=data)
         if serial.is_valid():
             try:
@@ -67,7 +82,9 @@ def add_reservation(request):
             messages.error(request, 'Invalid Serializer')
             return redirect('reservation-reservations')
     else:
+
         return render(request,'sorry.html')
+
 
 def add_booking(request):
     if request.method == "POST":
