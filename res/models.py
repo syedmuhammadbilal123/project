@@ -16,8 +16,29 @@ class User(models.Model):
     class Meta:
         db_table = "User"
 
+class vendor(models.Model):
+    vendor_id = models.AutoField(primary_key=True)
+    vendor_name = models.CharField(max_length=100)
+    vendor_email = models.CharField(max_length=100)
+    vendor_password = models.CharField(max_length=100)
+    vendor_designation = models.CharField(max_length=100)
+    role = models.ForeignKey(Roles,on_delete=models.CASCADE)
+    class Meta:
+        db_table = "vendor"
 
+class hotel(models.Model):
+    hotel_id = models.AutoField(primary_key=True)
+    hotel_name = models.CharField(max_length=100)
+    hotel_type = models.CharField(max_length=100)
+    hotel_location = models.IntegerField()
+    user_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
 
+    @property
+    def displayname(self):
+        return f'{self.hotel_name}'
+
+    class Meta:
+        db_table = "hotel"
 class resturant(models.Model):
     resturant_id = models.AutoField(primary_key=True)
     resturant_name = models.CharField(max_length=100)
@@ -36,19 +57,7 @@ class res_table(models.Model):
     class Meta:
         db_table = "res_table"
 
-class hotel(models.Model):
-    hotel_id = models.AutoField(primary_key=True)
-    hotel_name = models.CharField(max_length=100)
-    hotel_type = models.CharField(max_length=100)
-    hotel_location = models.IntegerField()
-    user_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
 
-    @property
-    def displayname(self):
-        return f'{self.hotel_name}'
-
-    class Meta:
-        db_table = "hotel"
 
 class hotel_room(models.Model):
     hotel_room_id = models.AutoField(primary_key=True)
@@ -106,15 +115,7 @@ class total_price(models.Model):
     class Meta:
         db_table = "total_price"
 
-class vendor(models.Model):
-    vendor_id = models.AutoField(primary_key=True)
-    vendor_name = models.CharField(max_length=100)
-    vendor_email = models.CharField(max_length=100)
-    vendor_password = models.CharField(max_length=100)
-    vendor_designation = models.CharField(max_length=100)
-    role = models.ForeignKey(Roles,on_delete=models.CASCADE)
-    class Meta:
-        db_table = "vendor"
+
 
 class admin(models.Model):
     admin_id = models.AutoField(primary_key=True)

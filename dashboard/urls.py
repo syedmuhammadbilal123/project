@@ -11,6 +11,7 @@ urlpatterns = [
     path('events/',views.events,name='reservation-events'),
     path('hotel/',views.hotel,name='reservation-hotel'),
     path('makemytrip/',views.makemytrip),
+    path('show/clients/',views.showClients),
 
     path('vehicle/',views.vehicle,name='reservation-vehicle'),
     path('myresturant/',views.myresturant,name='reservation-myresturant'),

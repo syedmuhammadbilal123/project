@@ -1,0 +1,47 @@
+{% extends "backs.html" %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Checkin</th>
+                      <th>Checkout</th>
+                      <th>Room Type</th>
+
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for row in info %}
+
+                    <tr>
+                        <td>{{row.user_id.user_name}}</td>
+                        <td>{{row.user_id.user_email}}</td>
+                        <td>{{row.user_id.role.role_name }}</td>
+                        <td>{{row.check_in}}</td>
+                        <td>{{row.check_out}}</td>
+                        <td>{{row.room_id.room_type.room_type_name}}</td>
+                    </tr>
+                  {%endfor%}
+
+                  </tbody>
+                </table>
+              </div>
+
+</div>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+<script>
+{% endblock %}
