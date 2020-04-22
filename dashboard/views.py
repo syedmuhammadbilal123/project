@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from res import models
+from res.models import vehicles_type,vehicles
+from res.models import resturant,res_table
+#from django.views.generic.edit import CreateView, UpdateView, DeleteView
+#from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from dashboard.Serializers import RegistrationSerializer,EventsSerializer,VehicleSerializer,HotelSerializer,ResturantSerializer
 
@@ -36,6 +39,7 @@ def makemytrip(request):
 
 def property(request):
     return render(request,'property.html')
+
 def myresturant(request):
     resturant_t = res_table.objects.all()
     all_resturant = resturant.objects.all()
@@ -47,15 +51,6 @@ def vehicle(request):
     all_vehicles = vehicles.objects.all()
 
     return render(request,"vehicle.html",{'vehicles':vehicles_t,'all_vehicles':all_vehicles})
-
-
-
-def showClients(request):
-    vendor_hotels = list(models.hotel.objects.filter(user_id = 1).values_list('hotel_id', flat=True))
-    hotel_room = list(models.room.objects.filter(hotel_id__in = vendor_hotels).values_list('room_id', flat=True))
-    users_and_rooms_info = models.hotel_reservations.objects.filter(room_id__in = hotel_room)
-
-    return render(request,'show_clients.html', context={"info": users_and_rooms_info})
 
 def add_vendors(request):
 
@@ -169,7 +164,6 @@ def add_hotel(request):
     else:
         return render(request,'sorry.html')
 
-
 def add_my_resturant(request):
     if request.method == "POST":
         r_name = request.POST.get('resturantname')
@@ -196,4 +190,3 @@ def add_my_resturant(request):
             return redirect('reservation-myresturant')
     else:
         return render(request,'sorry.html')
-
