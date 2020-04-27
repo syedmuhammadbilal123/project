@@ -6,27 +6,24 @@
                   <thead>
                     <tr>
 
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                      <th>Checkin</th>
-                      <th>Checkout</th>
-                      <th>Room Type</th>
-
+                      <th>Event Name</th>
+                      <th>Event Location</th>
+                        <th>Event TYPE</th>
+                      <th>Event Price</th>
+                      <th>Event time</th>
 
                     </tr>
                   </thead>
                   <tbody>
-                   <label>I'm here</label> {{ row }}
-                  {% for row in info %}
+                  {% for event in data %}
 
                     <tr>
-                        <td>{{row.user_id.user_name}}</td>
-                        <td>{{row.user_id.user_email}}</td>
-                        <td>{{row.user_id.role.role_name }}</td>
-                        <td>{{row.check_in}}</td>
-                        <td>{{row.check_out}}</td>
-                        <td>{{row.room_id.room_type.room_type_name}}</td>
+                      <td>{{event.event_name}}</td>
+                      <td>{{event.event_location}}</td>
+                        <td>{{event.event_type}}</td>
+                        <td>{{event.price}}</td>
+                        <td>{{event.time}}</td>
+
                     </tr>
                   {%endfor%}
 
@@ -45,4 +42,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 
 <script>
+   $(document).ready(function() {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+  })
+</script>
+
 {% endblock %}

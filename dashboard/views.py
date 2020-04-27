@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from res import models
 from res.models import vehicles_type,vehicles
-from res.models import resturant,res_table
+from res.models import resturant,table
 #from django.views.generic.edit import CreateView, UpdateView, DeleteView
 #from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
@@ -10,7 +11,25 @@ from dashboard.Serializers import RegistrationSerializer,EventsSerializer,Vehicl
 
 
 # Create your views here.
+def Home(request):
+    """docstring for Home"""
+    rooms =  models.room.objects.all()
+    print("Here are the rooms : ", rooms)
+    # room_types = models.room_type.objects.all()
 
+    # if "selectedHotel" in request.GET:
+    #     selectedHotelID = request.GET.get('selectedHotel')
+    #     selectedHotelRooms = models.room.objects.filter(hotel_id = selectedHotelID).values('room_id','room_type')
+
+    #     myDict = {}
+
+    #     for item in selectedHotelRooms:
+    #         roomType = models.room_type.objects.filter(room_type_id = item['room_type']).values('room_type_name')
+    #         myDict[item['room_id']] = roomType[0]['room_type_name']
+    #     return JsonResponse({'selectedHotelRooms': myDict})
+
+
+    return render(request,'reservation.html',{'rooms':rooms})
 
 def dash(request):
     return render(request,'back.html')
@@ -52,8 +71,16 @@ def vehicle(request):
 
     return render(request,"vehicle.html",{'vehicles':vehicles_t,'all_vehicles':all_vehicles})
 
-def add_vendors(request):
+def showClients(request):
+    vendor_hotels = list(models.hotel.objects.filter(vendor_id = 1).values_list('hotel_id', flat=True))
+    hotel_room = list(models.room.objects.filter(hotel_id__in = vendor_hotels).values_list('room_id', flat=True))
 
+    users_and_rooms_info = models.hotel_reservations.objects.filter(room_id__in = hotel_room)
+
+    return render(request,'show_clients.html', context={"info": users_and_rooms_info})
+
+def add_vendors(request):
+    print(request.POST)
     if request.method == "POST":
         n_name = request.POST.get('full_name')
         e_email = request.POST.get('email')
@@ -71,6 +98,7 @@ def add_vendors(request):
         return render(request,'reigister.html')
 
 def login_press(request):
+    print(request.POST)
     if request.method == "POST":
         n_email = request.POST.get('email')
         p_password = request.POST.get('password')
@@ -89,7 +117,7 @@ def login_press(request):
         return render(request, 'vendor_login.html')
 
 def add_events(request):
-
+    print(request.POST)
     if request.method == "POST":
         e_name = request.POST.get('eventname')
         e_location = request.POST.get('eventlocation')
@@ -113,6 +141,7 @@ def add_events(request):
         return render(request,'sorry.html')
 
 def add_vehicle(request):
+    print(request.POST)
     if request.method == "POST":
         v_name = request.POST.get('vehiclename')
         v_type = request.POST.get('vehicletype')
@@ -139,6 +168,7 @@ def add_vehicle(request):
         return render(request,'sorry.html')
 
 def add_hotel(request):
+    print(request.POST)
     if request.method == "POST":
         h_name = request.POST.get('hotelname')
         h_type = request.POST.get('hoteltype')
@@ -163,6 +193,47 @@ def add_hotel(request):
             return redirect('reservation-hotel')
     else:
         return render(request,'sorry.html')
+
+
+
+def add_reservation(request):
+    print(request.POST)
+    if request.method == "POST":
+
+        # h_name = request.POST.get('hotel-name')
+        c_in = str(request.POST.get('checkin'))
+        c_out = str(request.POST.get('checkout'))
+        d_arrival = request.POST.get('day')
+        t_duration = request.POST.get('time')
+        t_amount = float(request.POST.get('amount'))
+        room_id = request.POST.get('hotel_and_room')
+        hotel_id = room_id.split("|")[1]
+        # reserved_room = models.hotel_reservations.objects.filter(room_id = room_id.split("|")[0])
+        # reserved_hotel_room = len(models.room.objects.filter(hotel_id=hotel_id))
+        # print(room_id)
+        # if len(reserved_room) < 4:
+
+        data = {'check_in':c_in,'check_out':c_out,'day_arrival':d_arrival,'time_duration':t_duration,'total_amount':t_amount,'room_id': room_id.split("|")[0],'user_id':'2'}
+        print(data)
+        serial = ReservationSerializer(data=data)
+        if serial.is_valid():
+            try:
+                serial.save()
+                messages.success(request, 'Saved')
+                return redirect('reservation-reservations')
+            except:
+                messages.error(request, 'Something wrong')
+                return redirect('reservation-reservations')
+        else:
+            messages.error(request, 'Invalid Serializersssssss')
+            return redirect('reservation-reservations')
+        # else:
+        #     messages.error(request, 'Room is not available right now!')
+        #     return redirect('reservation-reservations')
+    else:
+        return render(request,'sorry.html')
+
+
 
 def add_my_resturant(request):
     if request.method == "POST":

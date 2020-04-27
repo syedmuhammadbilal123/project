@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from res import models
+#from django.core.urlresolvers import reverse_lazy
+#from django.views.generic import DeleteView
 
 
 # Create your views here.
@@ -45,6 +47,15 @@ def packages(request):
 def all_Events(request):
     events = models.event_places.objects.all()
     return render(request,"Vendor_Events.html",{"data":events})
+
+# class eventsDeleteView(DeleteView):
+#     template_name = 'templates/event_create.html'
+#     context_oject_name = 'event_places.objects.all()'
+#     success_url = reverse_lazy('event_places')
+
+#     def get_object(self):
+#         id_ = self.kwargs.get("id")
+#         return get_object_or_404(events,id=id_)
 
 def all_vehicles(request):
     vehicles = models.vehicles.objects.all()

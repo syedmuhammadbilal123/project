@@ -1,20 +1,12 @@
 from django.db import models
 
 # Create your models here.
+
 class Roles(models.Model):
     role_id = models.AutoField(primary_key=True)
     role_name = models.CharField(max_length=100)
     class Meta:
         db_table = "Roles"
-
-class User(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    user_name = models.CharField(max_length=100)
-    user_email = models.CharField(max_length=100)
-    user_password = models.CharField(max_length=100)
-    role = models.ForeignKey(Roles,on_delete=models.CASCADE)
-    class Meta:
-        db_table = "User"
 
 class vendor(models.Model):
     vendor_id = models.AutoField(primary_key=True)
@@ -26,12 +18,22 @@ class vendor(models.Model):
     class Meta:
         db_table = "vendor"
 
+class User(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    user_name = models.CharField(max_length=100)
+    user_email = models.CharField(max_length=100)
+    user_password = models.CharField(max_length=100)
+    role = models.ForeignKey(Roles,on_delete=models.CASCADE)
+    class Meta:
+        db_table = "User"
+
 class hotel(models.Model):
     hotel_id = models.AutoField(primary_key=True)
     hotel_name = models.CharField(max_length=100)
     hotel_type = models.CharField(max_length=100)
     hotel_location = models.IntegerField()
-    user_id = models.ForeignKey(Roles,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    vendor_id = models.ForeignKey(vendor,on_delete=models.CASCADE,null=True)
 
     @property
     def displayname(self):
@@ -39,23 +41,29 @@ class hotel(models.Model):
 
     class Meta:
         db_table = "hotel"
+
+
+
+
+
+
+
 class resturant(models.Model):
     resturant_id = models.AutoField(primary_key=True)
     resturant_name = models.CharField(max_length=100)
     resturant_location = models.CharField(max_length=100)
-    res_table = models.ForeignKey("res_table",on_delete=models.CASCADE,default=None)
     resturant_type= models.CharField(max_length=100)
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
 
     class Meta:
         db_table = "resturant"
 
-class res_table(models.Model):
-    res_table_id = models.AutoField(primary_key=True)
-    no_of_seats = models.CharField(max_length=100)
-
+class table(models.Model):
+    table_id = models.AutoField(primary_key=True)
+    no_of_seats = models.IntegerField()
+    resturant_id = models.ForeignKey(resturant,on_delete=models.CASCADE)
     class Meta:
-        db_table = "res_table"
+        db_table = "table"
 
 
 
@@ -89,6 +97,7 @@ class room(models.Model):
     pent_house = models.CharField(max_length=100)
     room_type = models.ForeignKey(room_type,on_delete=models.CASCADE,default=None)
     hotel_id = models.ForeignKey(hotel,on_delete=models.CASCADE)
+
     class Meta:
         db_table = "room"
 
@@ -114,7 +123,6 @@ class total_price(models.Model):
     resturant_id = models.ForeignKey(resturant,on_delete=models.CASCADE)
     class Meta:
         db_table = "total_price"
-
 
 
 class admin(models.Model):
@@ -161,7 +169,7 @@ class vehicles_type(models.Model):
 class vehicles(models.Model):
     vehicles_id = models.AutoField(primary_key=True)
     vehicles_name = models.CharField(max_length=100)
-    vehicles_type = models.ForeignKey(vehicles_type,on_delete=models.CASCADE,default=None)
+    vehicles_type = models.CharField(max_length=100)
     model_id = models.CharField(max_length=100)
     model_name = models.CharField(max_length=100)
 
@@ -248,14 +256,18 @@ class airplanes(models.Model):
 
 
 class hotel_reservations(models.Model):
+
     hotelres_id = models.AutoField(primary_key=True)
-    check_in = models.CharField(max_length=100)
-    check_out = models.CharField(max_length=100)
-    day_arrival = models.CharField(max_length=100)
-    time_duration = models.CharField(max_length=100)
+    # check_in = models.CharField(max_length=100)
+    check_in = models.CharField(max_length=10)
+    check_out = models.CharField(max_length=10)
+    # check_out = models.CharField(max_length=100)
+    day_arrival = models.DateField()
+    time_duration = models.CharField(max_length=20)
     total_amount = models.FloatField(default=0.0)
-    room_id = models.ForeignKey(room,on_delete=models.CASCADE,default='')
-    user_id = models.ForeignKey(Roles,on_delete=models.CASCADE,default='')
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE,default='')
+    room_id = models.ForeignKey(room,on_delete=models.CASCADE, default='')
+
     class Meta:
         db_table = "hotel_reservations"
 
@@ -284,10 +296,6 @@ class makeMyTrip(models.Model):
     train_station_id = models.ForeignKey(train_station,on_delete=models.CASCADE,default='')
     airlines_id = models.ForeignKey(airlines,on_delete=models.CASCADE,default='')
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
-
-
-
-
 
     class Meta:
         db_table = "makeMyTrip"

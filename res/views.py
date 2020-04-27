@@ -11,22 +11,8 @@ from . import models
 # Create your views here.
 def Home(request):
     """docstring for Home"""
-    rooms =  models.room.objects.all()
-    # room_types = models.room_type.objects.all()
-
-    # if "selectedHotel" in request.GET:
-    #     selectedHotelID = request.GET.get('selectedHotel')
-    #     selectedHotelRooms = models.room.objects.filter(hotel_id = selectedHotelID).values('room_id','room_type')
-
-    #     myDict = {}
-
-    #     for item in selectedHotelRooms:
-    #         roomType = models.room_type.objects.filter(room_type_id = item['room_type']).values('room_type_name')
-    #         myDict[item['room_id']] = roomType[0]['room_type_name']
-    #     return JsonResponse({'selectedHotelRooms': myDict})
-
-
-    return render(request,'reservation.html',{'rooms':rooms})
+    hotels =  models.hotel.objects.all()
+    return render(request,'reservation.html',{'hotels':hotels})
 
 def login(request):
 
@@ -54,6 +40,16 @@ def Index(request):
     b_data = models.vehicles.objects.all()
     return render(request,'index.html',{'data':b_data})
 
+def get_rooms(request):
+
+        if request.method == 'GET':
+               hotel_id = request.GET['hotel_id']
+
+               rooms_data = rooms.objects.filter(hotel_id=post_id)
+               return HttpResponse(rooms_data) # Sending an success response
+        else:
+               return HttpResponse("Request method is not a GET")
+
 
 def add_reservation(request):
 
@@ -66,25 +62,32 @@ def add_reservation(request):
         t_duration = request.POST.get('time')
         t_amount = float(request.POST.get('amount'))
         room_id = request.POST.get('hotel_and_room')
+        hotel_id = room_id.split("|")[1]
+        reserved_room = list(models.hotel_reservations.objects.filter(room_id = room_id.split("|")[0]).values_list('room_id', flat=True))
+        reserved_hotel_room = len(models.room.objects.filter(hotel_id=hotel_id))
 
-        data = {'check_in':c_in,'check_out':c_out,'day_arrival':d_arrival,'time_duration':t_duration,'total_amount':t_amount,'room_id': room_id,'user_id':'1'}
+        if reserved_hotel_room < 4:
 
-        serial = ReservationSerializer(data=data)
-        if serial.is_valid():
-            try:
-                serial.save()
-                messages.success(request, 'Saved')
-                return redirect('reservation-reservations')
-            except:
-                messages.error(request, 'Something wrong')
+            data = {'check_in':c_in,'check_out':c_out,'day_arrival':d_arrival,'time_duration':t_duration,'total_amount':t_amount,'room_id': room_id.split("|")[0],'user_id':'1'}
+
+            serial = ReservationSerializer(data=data)
+            if serial.is_valid():
+                try:
+                    serial.save()
+                    messages.success(request, 'Saved')
+                    return redirect('reservation-reservations')
+                except:
+                    messages.error(request, 'Something wrong')
+                    return redirect('reservation-reservations')
+            else:
+                messages.error(request, 'Invalid Serializer')
                 return redirect('reservation-reservations')
         else:
-            messages.error(request, 'Invalid Serializer')
+            messages.error(request, 'Room is not available right now!')
             return redirect('reservation-reservations')
     else:
 
         return render(request,'sorry.html')
-
 
 def add_booking(request):
     if request.method == "POST":
