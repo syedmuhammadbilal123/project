@@ -53,20 +53,21 @@
         <input type = "number" name = "amount" id = "amount"
         placeholder="enter total amount" required><br><br>
         <label>HOTEL:</label>
-        <select id = "hotel" name="hotel_id" >
+        <select id = "hotel" name="hotel_id">
             {% for i in hotels %}
-            <option  value="{{i.hotel_id}}" class = "getHotelRooms" data-catid= "{{i.hotel_id}}">{{i.hotel_name}}</option>
+            <option  value="{{i.hotel_id}}"  id = "getHotelRooms" data-catid= "{{i.hotel_id}}">{{i.hotel_name}}</option>
             {% endfor %}
         </select>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript">
-    $('.getHotelRooms').click(function(){
+    $('#getHotelRooms').change(function(){
+    console.log( $(this).val() );
     var catid;
     catid = $(this).attr("data-catid");
     $.ajax(
     {
         type:"GET",
-        url: "get_rooms/",
+        url: "getrooms/",
         data:{
                  hotel_id: catid
         },

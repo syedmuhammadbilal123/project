@@ -92,9 +92,6 @@ class room(models.Model):
     no_of_persons = models.IntegerField()
     no_of_rooms = models.IntegerField(default=0)
     discount_rates = models.IntegerField(default=0)
-    room_category = models.CharField(max_length=100)
-    normal = models.CharField(max_length=100)
-    pent_house = models.CharField(max_length=100)
     room_type = models.ForeignKey(room_type,on_delete=models.CASCADE,default=None)
     hotel_id = models.ForeignKey(hotel,on_delete=models.CASCADE)
 

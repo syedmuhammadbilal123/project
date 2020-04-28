@@ -45,7 +45,10 @@ def get_rooms(request):
         if request.method == 'GET':
                hotel_id = request.GET['hotel_id']
 
-               rooms_data = rooms.objects.filter(hotel_id=post_id)
+               print("HOTEL ID",hotel_id)
+
+               rooms_data = models.room.objects.filter(hotel_id=hotel_id)
+
                return HttpResponse(rooms_data) # Sending an success response
         else:
                return HttpResponse("Request method is not a GET")
